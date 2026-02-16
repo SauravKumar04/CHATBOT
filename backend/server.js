@@ -9,12 +9,23 @@ import NodeCache from "node-cache";
 dotenv.config();
 
 // Constants
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const CACHE_TTL = 3600; // 1 hour
 const CACHE_CHECK_PERIOD = 600; // 10 minutes
 
 // Initialize Express app
 const app = express();
+
+// CORS Configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || ['http://localhost:5173', 'http://localhost:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
 
 // Initialize services
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -90,10 +101,6 @@ function getConversation(sessionId) {
 
   return { sessionId, conversation };
 }
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 
 // Tool definitions for web search
 const tools = [

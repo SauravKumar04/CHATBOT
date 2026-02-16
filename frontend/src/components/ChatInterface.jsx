@@ -38,7 +38,8 @@ const ChatInterface = () => {
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/chat', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+      const response = await fetch(`${apiUrl}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ const ChatInterface = () => {
       <Header onNewConversation={startNewConversation} sessionId={sessionId} />
       <div className="flex-1 overflow-hidden flex flex-col relative">
         {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/20 via-transparent to-neutral-800/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-neutral-900/20 via-transparent to-neutral-800/10 pointer-events-none" />
         <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-500/3 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/3 rounded-full blur-3xl pointer-events-none" />
         
